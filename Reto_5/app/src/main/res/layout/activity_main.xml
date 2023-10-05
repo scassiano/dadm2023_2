@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal" >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <TableLayout
+        android:id="@+id/play_grid" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:layout_marginTop="5dp" >
+        <TableRow android:gravity="center_horizontal">
+            <Button android:id="@+id/one" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="1"
+                android:layout_marginRight="5dp"
+                android:textSize="70dp" />
+            <Button android:id="@+id/two" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="2"
+                android:layout_marginRight="5dp"
+                android:textSize="70dp" />
+            <Button android:id="@+id/three" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="3"
+                android:textSize="70dp" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            <Button android:id="@+id/four" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="4"
+                android:layout_marginRight="5dp"
+                android:textSize="70dp" />
+            <Button android:id="@+id/five" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="5"
+                android:layout_marginRight="5dp"
+                android:textSize="70dp" />
+            <Button android:id="@+id/six" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="6"
+                android:textSize="70dp" />
+        </TableRow>
+
+        <TableRow android:gravity="center_horizontal">
+            <Button android:id="@+id/seven" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="7"
+                android:layout_marginRight="5dp"
+                android:textSize="70dp" />
+            <Button android:id="@+id/eight" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="8"
+                android:layout_marginRight="5dp"
+                android:textSize="70dp" />
+            <Button android:id="@+id/nine" android:layout_width="100dp"
+                android:layout_height="100dp" android:text="9"
+                android:textSize="70dp" />
+        </TableRow>
+    </TableLayout>
+
+    <TextView android:id="@+id/information" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:text="info"
+        android:gravity="center_horizontal" android:layout_marginTop="20dp"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
+        <TextView android:id="@+id/text_human_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Human:"
+            android:layout_alignParentLeft="true"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/num_human_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="0"
+            android:layout_toRightOf="@id/text_human_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/text_tie_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Ties:"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/num_human_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/num_tie_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="0"
+            android:layout_toRightOf="@id/text_tie_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/text_android_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Android:"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/text_tie_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/num_android_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="0"
+            android:layout_toRightOf="@id/text_android_points"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

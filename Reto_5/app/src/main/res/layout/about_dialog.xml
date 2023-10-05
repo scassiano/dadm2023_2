@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal" >
+
+    <ImageView
+        android:id="@+id/about_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:src="@drawable/tic_tac_toe"/>
+
+    <TextView
+        android:id="@+id/about_information"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Tic-Tac-Toe"
+        android:textColor="@color/material_dynamic_tertiary50"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/about_information2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="By Santiago Cassiano"
+        android:textColor="@color/material_dynamic_tertiary50"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/about_information3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose from one of three difficulty levels. \nDon't let the Android beat you!"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"/>
+
+</LinearLayout>
