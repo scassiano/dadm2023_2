@@ -7,9 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     //Constantes para identificar cajas de dialogo
     static final int DIALOG_DIFFICULTY_ID = 0;
     static final int DIALOG_QUIT_ID = 1;
+    static final int DIALOG_ABOUT_ID = 2;
 
     //Funcion para iniciar un nuevo juego
     private void startNewGame() {
@@ -203,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.quit) {
             showDialog(DIALOG_QUIT_ID);
             return true;
+        } else if (id == R.id.about) {
+            showDialog(DIALOG_ABOUT_ID);
+            return true;
         }
         return false;
     }
@@ -264,6 +270,15 @@ public class MainActivity extends AppCompatActivity {
                             }
                         })
                         .setNegativeButton(R.string.no, null);
+                dialog = builder.create();
+                break;
+
+            case DIALOG_ABOUT_ID:
+                Context context = getApplicationContext();
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View layout = inflater.inflate(R.layout.about_dialog, null);
+                builder.setView(layout);
+                builder.setPositiveButton("OK", null);
                 dialog = builder.create();
                 break;
         }
