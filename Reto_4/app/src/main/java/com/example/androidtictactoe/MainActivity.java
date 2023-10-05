@@ -1,8 +1,13 @@
 package com.example.androidtictactoe;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView mWinsAndroidTextView;
     private TextView mWinsHumanTextView;
     private TextView mTiesTextView;
+
+    //Constantes para identificar cajas de dialogo
+    static final int DIALOG_DIFFICULTY_ID = 0;
+    static final int DIALOG_QUIT_ID = 1;
 
     //Funcion para iniciar un nuevo juego
     private void startNewGame() {
@@ -163,9 +173,18 @@ public class MainActivity extends AppCompatActivity {
 
     //Creacion del menu de opciones
     @Override
+    @SuppressLint("RestrictedApi")
     public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.game_menu, menu);
+
+        //Hacer que los iconos de las opciones si se muestren
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
+
         return true;
     }
 
@@ -174,12 +193,81 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         //id del item seleccionado del menu
         int id = item.getItemId();
-        if (id == R.id.menuNewGame){
+        if (id == R.id.new_game){
             //Iniciar un nuevo juego
             startNewGame();
+            return true;
+        } else if (id == R.id.ai_difficulty) {
+            showDialog(DIALOG_DIFFICULTY_ID);
+            return true;
+        } else if (id == R.id.quit) {
+            showDialog(DIALOG_QUIT_ID);
+            return true;
         }
-        return true;
+        return false;
     }
 
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        Dialog dialog = null;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        switch(id) {
+            case DIALOG_DIFFICULTY_ID:
+
+                builder.setTitle(R.string.difficulty_choose);
+
+                final CharSequence[] levels = {
+                        getResources().getString(R.string.difficulty_easy),
+                        getResources().getString(R.string.difficulty_harder),
+                        getResources().getString(R.string.difficulty_expert)};
+
+
+                //La primera opcion que debe estar seleccionada es expert (corresponde a 2)
+                //Por ello se asigna a la variable selected
+                int selected = 2;
+
+                builder.setSingleChoiceItems(levels, selected,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int item) {
+                                dialog.dismiss(); // Close dialog
+
+                                //Se asigna el nivel de dificultad elegido
+                                switch (item){
+                                    case 0:
+                                        mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+                                        break;
+                                    case 1:
+                                        mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+                                        break;
+                                    case 2:
+                                        mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+                                        break;
+                                }
+
+                                // Display the selected difficulty level
+                                Toast.makeText(getApplicationContext(), levels[item],
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                });
+                dialog = builder.create();
+
+                break;
+
+            case DIALOG_QUIT_ID:
+                // Create the quit confirmation dialog
+                builder.setMessage(R.string.quit_question)
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                MainActivity.this.finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.no, null);
+                dialog = builder.create();
+                break;
+        }
+        return dialog;
+    }
 }
 

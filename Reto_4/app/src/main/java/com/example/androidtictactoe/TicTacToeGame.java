@@ -3,6 +3,12 @@ import java.util.Random;
 
 public class TicTacToeGame {
 
+    //Variable para los niveles de dificultad del bot
+    public enum DifficultyLevel {Easy, Harder, Expert}
+
+    //Almacena el nivel actual de dificultad, inicialmente experto
+    private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
+
     private char mBoard[] = {' ',' ',' ',' ',' ',' ',' ',' ',' '};
     public static final int BOARD_SIZE = 9;
     public static final char HUMAN_PLAYER = 'X';
@@ -44,22 +50,33 @@ public class TicTacToeGame {
      * @return The best move for the computer to make (0-8).
      */
     public int getComputerMove() {
-        int move;
+        int move = -1;
 
-        // First see if there's a move O can make to win
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
-                char curr = mBoard[i];
-                mBoard[i] = COMPUTER_PLAYER;
-                if (checkForWinner() == 3) {
-                    return i;
-                }
-                else
-                    mBoard[i] = curr;
+        if (mDifficultyLevel == DifficultyLevel.Easy){
+            move = getRandomMove();
+        } else if (mDifficultyLevel == DifficultyLevel.Harder) {
+            move = getWinningMove();
+            if (move == -1){
+                move = getRandomMove();
+            }
+        } else if (mDifficultyLevel == DifficultyLevel.Expert) {
+            // Try to win, but if that's not possible, block.
+            // If that's not possible, move anywhere.
+            move = getWinningMove();
+            if (move == -1){
+                move = getBlockingMove();
+            }
+            if (move == -1){
+                move = getRandomMove();
             }
         }
 
-        // See if there's a move O can make to block X from winning
+        return move;
+    }
+
+    private int getBlockingMove(){
+
+        // See if there's a move android can make to block human from winning
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
                 char curr = mBoard[i];   // Save the current number
@@ -73,6 +90,32 @@ public class TicTacToeGame {
             }
         }
 
+        //Si no hay un movimiento ganador retorna -1 para que haga otra cosa
+        return -1;
+    }
+
+    private int getWinningMove(){
+        // First see if there's a move android can make to win
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (mBoard[i] != HUMAN_PLAYER && mBoard[i] != COMPUTER_PLAYER) {
+                char curr = mBoard[i];
+                mBoard[i] = COMPUTER_PLAYER;
+                if (checkForWinner() == 3) {
+                    return i;
+                }
+                else
+                    mBoard[i] = curr;
+            }
+        }
+
+        //Si no hay un movimiento ganador retorna -1 para que haga otra cosa
+        return -1;
+    }
+
+    private int getRandomMove(){
+
+        //Variable para almacenar el movimiento que piensa hacer el bot
+        int move;
         // Generate random move
         do
         {
@@ -143,5 +186,14 @@ public class TicTacToeGame {
 
         // If we make it through the previous loop, all places are taken, so it's a tie
         return 1;
+    }
+
+    //Setter y getter para los niveles de dificultad
+    public DifficultyLevel getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel){
+        mDifficultyLevel = difficultyLevel;
     }
 }
