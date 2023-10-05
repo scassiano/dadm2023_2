@@ -1,6 +1,7 @@
 package com.example.androidtictactoe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,9 +20,6 @@ public class MainActivity extends AppCompatActivity {
     //Para acceder a los botones del triki que se muestran en pantalla
     private Button mBoardButtons[];
 
-    //Para acceder a el boton de new game
-    private Button mNewGameButton;
-
     //Para acceder al texto que se mostrara en pantalla
     private TextView mInfoTextView;
 
@@ -31,14 +29,21 @@ public class MainActivity extends AppCompatActivity {
     //Variable para alternar quein juega al inicio (-1 CPU, 1 Player)
     private int mBegin;
 
+    //Variable para saber cuantas victorias y empates hay
+    private int mWinsAndroid = 0;
+    private int mWinsHuman = 0;
+    private int mTies = 0;
+
+    //Variables para acceder a los textos asociados a las victorias y empates
+    private TextView mWinsAndroidTextView;
+    private TextView mWinsHumanTextView;
+    private TextView mTiesTextView;
+
     //Funcion para iniciar un nuevo juego
     private void startNewGame() {
 
         //Limpiar el tablero a nivel logico
         mGame.clearBoard();
-
-        //Volver invisible el New Game Button
-        mNewGameButton.setVisibility(View.INVISIBLE);
 
         //Volver el gameover false
         mGameOver = false;
@@ -49,8 +54,6 @@ public class MainActivity extends AppCompatActivity {
             mBoardButtons[i].setEnabled(true);
             mBoardButtons[i].setOnClickListener(new ButtonClickListener(i));
         }
-
-        mNewGameButton.setOnClickListener(new NewGameClickListener());
 
         if (mBegin == 1){
             // Mencionar que el humano va primero
@@ -75,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {
             if (mBoardButtons[location].isEnabled() && !mGameOver) {
                 setMove(TicTacToeGame.HUMAN_PLAYER, location);
-// If no winner yet, let the computer make a move
+
+                // If no winner yet, let the computer make a move
                 int winner = mGame.checkForWinner();
                 if (winner == 0) {
                     mInfoTextView.setText(R.string.turn_computer);
@@ -89,33 +93,31 @@ public class MainActivity extends AppCompatActivity {
                 else if (winner == 1) {
                     mInfoTextView.setText(R.string.result_tie);
                     mGameOver = true;
-                    //Volver Visible el New Game Button
-                    mNewGameButton.setVisibility(View.VISIBLE);
+                    //Cambiar la persona que inicia la proxima ronda
                     mBegin = mBegin * -1;
+                    //Actualizar contadores de empates
+                    mTies = mTies + 1;
+                    mTiesTextView.setText(String.valueOf(mTies));
                 }
                 else if (winner == 2) {
                     mInfoTextView.setText(R.string.result_human_wins);
                     mGameOver = true;
-                    //Volver Visible el New Game Button
-                    mNewGameButton.setVisibility(View.VISIBLE);
                     //Cambiar la persona que inicia la proxima ronda
                     mBegin = mBegin * -1;
+                    //Actualizar contadores de victorias humanas
+                    mWinsHuman = mWinsHuman + 1;
+                    mWinsHumanTextView.setText(String.valueOf(mWinsHuman));
                 }
                 else {
                     mInfoTextView.setText(R.string.result_computer_wins);
                     mGameOver = true;
-                    //Volver Visible el New Game Button
-                    mNewGameButton.setVisibility(View.VISIBLE);
+                    //Cambiar la persona que inicia la proxima ronda
                     mBegin = mBegin * -1;
+                    //Actualizar contadores de victorias android
+                    mWinsAndroid = mWinsAndroid + 1;
+                    mWinsAndroidTextView.setText(String.valueOf(mWinsAndroid));
                 }
             }
-        }
-    }
-
-    private class NewGameClickListener implements View.OnClickListener {
-        public NewGameClickListener() {}
-        public void onClick(View view) {
-            startNewGame();
         }
     }
 
@@ -134,22 +136,49 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Activar el toolbar para que aparezca arriba de la aplicacion
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
         mBoardButtons = new Button[TicTacToeGame.BOARD_SIZE];
-        mBoardButtons[0] = (Button) findViewById(R.id.one);
-        mBoardButtons[1] = (Button) findViewById(R.id.two);
-        mBoardButtons[2] = (Button) findViewById(R.id.three);
-        mBoardButtons[3] = (Button) findViewById(R.id.four);
-        mBoardButtons[4] = (Button) findViewById(R.id.five);
-        mBoardButtons[5] = (Button) findViewById(R.id.six);
-        mBoardButtons[6] = (Button) findViewById(R.id.seven);
-        mBoardButtons[7] = (Button) findViewById(R.id.eight);
-        mBoardButtons[8] = (Button) findViewById(R.id.nine);
-        mInfoTextView = (TextView) findViewById(R.id.information);
-        mNewGameButton = (Button) findViewById(R.id.newgame);
+        mBoardButtons[0] = findViewById(R.id.one);
+        mBoardButtons[1] = findViewById(R.id.two);
+        mBoardButtons[2] = findViewById(R.id.three);
+        mBoardButtons[3] = findViewById(R.id.four);
+        mBoardButtons[4] = findViewById(R.id.five);
+        mBoardButtons[5] = findViewById(R.id.six);
+        mBoardButtons[6] = findViewById(R.id.seven);
+        mBoardButtons[7] = findViewById(R.id.eight);
+        mBoardButtons[8] = findViewById(R.id.nine);
+        mInfoTextView = findViewById(R.id.information);
+        mWinsAndroidTextView = findViewById(R.id.num_android_points);
+        mWinsHumanTextView = findViewById(R.id.num_human_points);
+        mTiesTextView = findViewById(R.id.num_tie_points);
+
         mBegin = 1; //La primera vez inicia el jugador humano
 
         mGame = new TicTacToeGame();
         startNewGame();
+    }
+
+    //Creacion del menu de opciones
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.game_menu, menu);
+        return true;
+    }
+
+    //Cuando el menu se selecciona
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //id del item seleccionado del menu
+        int id = item.getItemId();
+        if (id == R.id.menuNewGame){
+            //Iniciar un nuevo juego
+            startNewGame();
+        }
+        return true;
     }
 
 }
