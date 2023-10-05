@@ -35,12 +35,17 @@ public class TicTacToeGame {
      * @param player - The HUMAN_PLAYER or COMPUTER_PLAYER
      * @param location - The location (0-8) to place the move
      */
-    public void setMove(char player, int location) {
+    public boolean setMove(char player, int location) {
         //Si el movimiento lo hace un jugador
-        if (player == HUMAN_PLAYER){
-            mBoard[location] = HUMAN_PLAYER;
+        if (mBoard[location] == OPEN_SPOT){
+            if (player == HUMAN_PLAYER){
+                mBoard[location] = HUMAN_PLAYER;
+            } else {
+                mBoard[location] = COMPUTER_PLAYER;
+            }
+            return true;
         } else {
-            mBoard[location] = COMPUTER_PLAYER;
+            return false;
         }
     }
 
@@ -195,5 +200,10 @@ public class TicTacToeGame {
 
     public void setDifficultyLevel(DifficultyLevel difficultyLevel){
         mDifficultyLevel = difficultyLevel;
+    }
+
+    //Saber que piesa esta ocupando una posicion
+    public char getBoardOccupant(int position){
+        return mBoard[position];
     }
 }
