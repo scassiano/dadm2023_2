@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal" >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <com.example.androidtictactoe.BoardView
+        android:id="@+id/board"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="5dp"/>
+
+    <TextView android:id="@+id/information" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:text="info"
+        android:gravity="center_horizontal" android:layout_marginTop="20dp"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal">
+        <TextView android:id="@+id/text_human_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Human:"
+            android:layout_alignParentLeft="true"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/num_human_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="0"
+            android:layout_toRightOf="@id/text_human_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/text_tie_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Ties:"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/num_human_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/num_tie_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="0"
+            android:layout_toRightOf="@id/text_tie_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/text_android_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Android:"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/text_tie_points"
+            android:textSize="20dp" />
+
+        <TextView android:id="@+id/num_android_points" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="0"
+            android:layout_toRightOf="@id/text_android_points"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
