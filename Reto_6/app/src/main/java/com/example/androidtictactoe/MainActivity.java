@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
     private int mWinsHuman = 0;
     private int mTies = 0;
 
+    //Variable para almacenar la dificultad seleccionada
+    //Por defecto es la maxima
+    private int mDifficultyInt = 2;
+
     //Variables para acceder a los textos asociados a las victorias y empates
     private TextView mWinsAndroidTextView;
     private TextView mWinsHumanTextView;
@@ -135,12 +139,22 @@ public class MainActivity extends AppCompatActivity {
         mWinsHuman = mPrefs.getInt("mWinsHuman", 0);
         mWinsAndroid = mPrefs.getInt("mWinsAndroid",0);
         mTies = mPrefs.getInt("mTies",0);
+        //Restaurar dificultad, por defecto 2 (Expert)
+        mDifficultyInt = mPrefs.getInt("mDifficultyInt",2);
+
+        if(mDifficultyInt == 0){
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+        } else if (mDifficultyInt == 1){
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+        } else {
+            mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+        }
 
         if (savedInstanceState == null){
-            mBegin = 1; //La primera vez inicia el jugador humano
+            mBegin = 1; //La primera vez que se abre la app inicia el jugador humano
             startNewGame();
         } else {
-            //Restaurar estado del juego
+            //Restaurar estado del juego si no se cerro la app
             mGame.setBoardState(savedInstanceState.getCharArray("board"));
             mGameOver = savedInstanceState.getBoolean("mGameOver");
             mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
@@ -201,9 +215,6 @@ public class MainActivity extends AppCompatActivity {
 
         outState.putCharArray("board", mGame.getBoardState());
         outState.putBoolean("mGameOver", mGameOver);
-        outState.putInt("mWinsHuman",Integer.valueOf(mWinsHuman));
-        outState.putInt("mWinsAndroid",Integer.valueOf(mWinsAndroid));
-        outState.putInt("mTies",Integer.valueOf(mTies));
         outState.putInt("mBegin", mBegin);
         outState.putCharSequence("info", mInfoTextView.getText());
     }
@@ -228,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //La primera opcion que debe estar seleccionada es expert (corresponde a 2)
                 //Por ello se asigna a la variable selected
-                int selected = 2;
+                int selected = mGame.getDifficultyLevel().ordinal();
 
                 builder.setSingleChoiceItems(levels, selected,
                         new DialogInterface.OnClickListener() {
@@ -239,12 +250,15 @@ public class MainActivity extends AppCompatActivity {
                                 switch (item){
                                     case 0:
                                         mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Easy);
+                                        mDifficultyInt = 0;
                                         break;
                                     case 1:
                                         mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Harder);
+                                        mDifficultyInt = 1;
                                         break;
                                     case 2:
                                         mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.Expert);
+                                        mDifficultyInt = 2;
                                         break;
                                 }
 
@@ -366,6 +380,8 @@ public class MainActivity extends AppCompatActivity {
         ed.putInt("mWinsHuman",mWinsHuman);
         ed.putInt("mWinsAndroid",mWinsAndroid);
         ed.putInt("mTies",mTies);
+        //Almacenar la dificultad seleccionada
+        ed.putInt("mDifficultyInt",mDifficultyInt);
         //Sobreescribe los datos previamente guardados con los nuevos
         ed.commit();
     }
