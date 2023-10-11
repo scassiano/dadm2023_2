@@ -206,4 +206,12 @@ public class TicTacToeGame {
     public char getBoardOccupant(int position){
         return mBoard[position];
     }
+
+    public char[] getBoardState() {
+        return mBoard;
+    }
+
+    public void setBoardState(char[] boardState) {
+        mBoard = boardState.clone();
+    }
 }

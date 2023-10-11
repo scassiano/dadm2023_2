@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Constantes para identificar cajas de dialogo
     static final int DIALOG_DIFFICULTY_ID = 0;
-    static final int DIALOG_QUIT_ID = 1;
+    static final int DIALOG_RESET_SCORE_ID = 1;
     static final int DIALOG_ABOUT_ID = 2;
 
     //Acceso al view que representa el tablero
@@ -55,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
     //Variables para reproductores de sonidos
     MediaPlayer mHumanMediaPlayer;
     MediaPlayer mComputerMediaPlayer;
+
+
+    //Variable para almacenar datos en las preferencias
+    private SharedPreferences mPrefs;
 
     //Funcion para iniciar un nuevo juego
     private void startNewGame() {
@@ -115,15 +120,40 @@ public class MainActivity extends AppCompatActivity {
         // Listen for touches on the board
         mBoardView.setOnTouchListener(mTouchListener);
 
+        //Inicializar la variable de preferencias
+        //El primer argumento es el nombre del archivo de preferencias
+        mPrefs = getSharedPreferences("ttt_prefs",MODE_PRIVATE);
 
         mInfoTextView = findViewById(R.id.information);
         mWinsAndroidTextView = findViewById(R.id.num_android_points);
         mWinsHumanTextView = findViewById(R.id.num_human_points);
         mTiesTextView = findViewById(R.id.num_tie_points);
 
-        mBegin = 1; //La primera vez inicia el jugador humano
+        mPrefs = getSharedPreferences("ttt_prefs",MODE_PRIVATE);
+        //Restaurar la puntuacion obtenida previamente
+        // (0 en caso de no tener datos)
+        mWinsHuman = mPrefs.getInt("mWinsHuman", 0);
+        mWinsAndroid = mPrefs.getInt("mWinsAndroid",0);
+        mTies = mPrefs.getInt("mTies",0);
 
-        startNewGame();
+        if (savedInstanceState == null){
+            mBegin = 1; //La primera vez inicia el jugador humano
+            startNewGame();
+        } else {
+            //Restaurar estado del juego
+            mGame.setBoardState(savedInstanceState.getCharArray("board"));
+            mGameOver = savedInstanceState.getBoolean("mGameOver");
+            mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
+            mBegin = savedInstanceState.getInt("mBegin");
+        }
+
+        displayScores();
+    }
+
+    private void displayScores() {
+        mWinsHumanTextView.setText(Integer.toString(mWinsHuman));
+        mWinsAndroidTextView.setText(Integer.toString(mWinsAndroid));
+        mTiesTextView.setText(Integer.toString(mTies));
     }
 
     //Creacion del menu de opciones
@@ -155,8 +185,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (id == R.id.ai_difficulty) {
             showDialog(DIALOG_DIFFICULTY_ID);
             return true;
-        } else if (id == R.id.quit) {
-            showDialog(DIALOG_QUIT_ID);
+        } else if (id == R.id.reset_score) {
+            showDialog(DIALOG_RESET_SCORE_ID);
             return true;
         } else if (id == R.id.about) {
             showDialog(DIALOG_ABOUT_ID);
@@ -164,6 +194,21 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
+        outState.putCharArray("board", mGame.getBoardState());
+        outState.putBoolean("mGameOver", mGameOver);
+        outState.putInt("mWinsHuman",Integer.valueOf(mWinsHuman));
+        outState.putInt("mWinsAndroid",Integer.valueOf(mWinsAndroid));
+        outState.putInt("mTies",Integer.valueOf(mTies));
+        outState.putInt("mBegin", mBegin);
+        outState.putCharSequence("info", mInfoTextView.getText());
+    }
+
+
 
     @Override
     protected Dialog onCreateDialog(int id) {
@@ -212,13 +257,19 @@ public class MainActivity extends AppCompatActivity {
 
                 break;
 
-            case DIALOG_QUIT_ID:
+            case DIALOG_RESET_SCORE_ID:
                 // Create the quit confirmation dialog
-                builder.setMessage(R.string.quit_question)
+                builder.setMessage(R.string.reset_question)
                         .setCancelable(false)
                         .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                MainActivity.this.finish();
+                                mWinsHuman = 0;
+                                mWinsAndroid = 0;
+                                mTies = 0;
+
+                                mWinsHumanTextView.setText(String.valueOf(mWinsHuman));
+                                mWinsAndroidTextView.setText(String.valueOf(mWinsAndroid));
+                                mTiesTextView.setText(String.valueOf(mTies));
                             }
                         })
                         .setNegativeButton(R.string.no, null);
@@ -304,6 +355,19 @@ public class MainActivity extends AppCompatActivity {
 
         mHumanMediaPlayer.release();
         mComputerMediaPlayer.release();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        //Almacenar los puntajes para tenerlos de forma persistente
+        SharedPreferences.Editor ed = mPrefs.edit();
+        ed.putInt("mWinsHuman",mWinsHuman);
+        ed.putInt("mWinsAndroid",mWinsAndroid);
+        ed.putInt("mTies",mTies);
+        //Sobreescribe los datos previamente guardados con los nuevos
+        ed.commit();
     }
 
 
