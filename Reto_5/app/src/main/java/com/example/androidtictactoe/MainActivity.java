@@ -122,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         mTiesTextView = findViewById(R.id.num_tie_points);
 
         mBegin = 1; //La primera vez inicia el jugador humano
+
+        startNewGame();
     }
 
     //Creacion del menu de opciones
