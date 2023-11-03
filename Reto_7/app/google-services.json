@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209568389600",
+    "project_id": "onlinetriki",
+    "storage_bucket": "onlinetriki.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209568389600:android:c2e8699870483e6b007385",
+        "android_client_info": {
+          "package_name": "com.example.onlinetriki"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDJsyyBPtR7iO_IWweq3iSIMUZpd-EUyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
