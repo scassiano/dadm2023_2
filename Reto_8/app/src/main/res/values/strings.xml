@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">sqlite</string>
+    <string name="str_btnbuscar">Buscar Empresa</string>
+    <string name="str_btnregistrar">Registrar Empresa</string>
+    <string name="str_btnlistar">Listar Empresas</string>
+
+    <string name="str_nombre">Nombre</string>
+    <string name="str_url">URL</string>
+    <string name="str_telefono">Telefono</string>
+    <string name="str_email">Email</string>
+    <string name="str_productosServicios">Productos y servicios</string>
+    <string name="str_clasificacion">Clasificacion</string>
+
+    <string name="str_bienvenida">Bienvenid@s</string>
+    <string name="str_descripon_imagen">Una imagen de un directorio</string>
+    <string name="str_listarempresas">Listado de Empresas</string>
+    <string name="str_gestionempresas">Gestión de Empresas</string>
+    <string name="str_buscarempresa">Buscar empresa por nombre</string>
+    <string name="str_digitenombre">Digite el nombre a buscar</string>
+
+    <string-array name="clasificaciones">
+        <item>consultoria</item>
+        <item>desarrollo a la medida</item>
+        <item>fabrica de software</item>
+    </string-array>
+
+    <string-array name="clasificacionesExtra">
+        <item>Todas</item>
+        <item>consultoria</item>
+        <item>desarrollo a la medida</item>
+        <item>fabrica de software</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".GestionarEmpresaActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:paddingTop="10sp"
+        android:paddingBottom="10sp"
+        android:text="@string/str_gestionempresas"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="#3F51B5"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_nombre"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_txtnombre"
+        android:hint="@string/str_digitenombre"
+        android:inputType="text"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_url"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_txturl"
+        android:hint="Digite la URL"
+        android:inputType="text"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_telefono"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_txttelefono"
+        android:hint="Digite el telefono"
+        android:inputType="number"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_email"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_txtemail"
+        android:hint="Digite el email"
+        android:inputType="textEmailAddress"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_productosServicios"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_txtpys"
+        android:hint="Digite los productos y servicios"
+        android:inputType="textMultiLine"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/str_clasificacion"
+        />
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_spnclasificacion"
+        android:entries="@array/clasificaciones"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_btnguardar"
+        android:layout_gravity="center_horizontal"
+        android:text="Guardar"
+        android:onClick="onClick"
+        android:layout_marginTop="90sp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_btnactualizar"
+        android:layout_gravity="center_horizontal"
+        android:text="Actualizar"
+        android:onClick="onClick"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ges_btnborrar"
+        android:layout_gravity="center_horizontal"
+        android:text="Borrar"
+        android:onClick="onClick"/>
+
+</LinearLayout>
