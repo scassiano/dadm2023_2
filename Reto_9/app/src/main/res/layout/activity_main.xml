@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <!-- View del mapa proveido por osmdroid-->
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="475dp" />
+
+    <EditText
+        android:id="@+id/ETlatitud"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:layout_marginTop="10dp"
+        android:hint="Ingresa la latitud que quieres visitar"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/ETlongitud"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal|numberSigned"
+        android:layout_marginTop="10dp"
+        android:hint="Ingresa la longitud que quieres visitar"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <Button
+            android:id="@+id/BtnSearch"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="Ir a ubicación deseada"
+            android:onClick="goToSearch"/>
+
+        <Button
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/BtnSearch"
+            android:id="@+id/BtnCurrent"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="Ir a mi ubicación actual"
+            android:onClick="goToCurrent"/>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

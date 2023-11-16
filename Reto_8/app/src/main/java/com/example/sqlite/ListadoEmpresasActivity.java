@@ -56,6 +56,7 @@ public class ListadoEmpresasActivity extends AppCompatActivity {
             Empresa e = listaEmpresas.get(i);
             nombresEmpresas.add(e.getNombre());
             idEmpresas.add(e.getId());
+            Toast.makeText(contexto, e.getNombre(), Toast.LENGTH_LONG).show();
         }
 
         //Se crea un adaptador para pasar los datos de la lista

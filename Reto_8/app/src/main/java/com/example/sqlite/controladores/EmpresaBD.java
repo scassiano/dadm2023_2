@@ -130,10 +130,11 @@ public class EmpresaBD extends SQLiteOpenHelper implements IEmpresaBD {
 
     @Override
     public List<Empresa> lista() {
+        empresaList.clear();
         //Retorna todos los elementos encontrados en la base de datos
         //Ordenados ascendentemente por titulo
         SQLiteDatabase database = getReadableDatabase();
-        String sql = "SELECT * FROM empresas ORDER BY nombre ASC";
+        String sql = "SELECT * FROM empresas;";
         Cursor cursor = database.rawQuery(sql, null);
         //Recorre todos los elementos que encuentre en la consulta
         //Se van almacenando los objetos de tipo empresa en la base de datos
